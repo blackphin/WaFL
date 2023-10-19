@@ -4,7 +4,7 @@ import About from "./About";
 
 const Dashboard = () => {
   return (
-    <div className="p-10 bg-[#020C1B] h-full w-full">
+    <div className="px-10 bg-[#020C1B] h-full w-full">
       <LandingPage />
       <About />
     </div>

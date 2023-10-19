@@ -1,17 +1,20 @@
 import React from "react";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
-
+import {Link} from "react-router-dom"
 const LandingPage = () => {
   return (
     <div className="h-screen">
       <div
-        className="flex text-white border-b pb-4"
+        className="flex text-white border-b p-4"
         style={{
           borderImage: "linear-gradient(to right, transparent, #00FFE5)",
           borderImageSlice: 1,
         }}
       >
-        <div className="flex gap-2 items-center"><img src="/public/logo.svg" className="w-8"/>WaFL</div>
+        <div className="flex gap-2 items-center">
+          <img src="/public/logo.svg" className="w-8" />
+          WaFL
+        </div>
         <div className="ml-auto flex gap-8">
           <div>About Us</div>
           <div>Getting Started</div>
@@ -23,9 +26,11 @@ const LandingPage = () => {
             Neural Networks and Shit
           </div>
           <div className="text-xl">Acting as a catalyst and fools</div>
-          <button className="bg-[#00FFE5] p-3 text-black rounded-full w-40">
-            SignUp / Login
-          </button>
+          <Link to="/dashboard">
+            <button className="bg-[#00FFE5] p-3 text-black rounded-full w-40">
+              SignUp / Login
+            </button>
+          </Link>
         </div>
         <div className="flex items-center p-2">
           <Player

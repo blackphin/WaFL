@@ -1,83 +1,90 @@
 import React, { useState } from "react";
 import {
-  FaChevronRight,
-  FaChevronLeft,
-  FaUser,
-  FaExclamationTriangle,
-  FaSignOutAlt,
-  FaUserMd,
-} from "react-icons/fa";
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+} from "@material-tailwind/react";
+import { FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom"; // Import from react-router-dom
 
-const NavbarComponent = () => {
-  const [collapsed, setCollapsed] = useState(true);
-  const [activeLink, setActiveLink] = useState(null);
+function Icon({ id, open }) {
+  return (
+    <svg
+      xmlns="http the.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className={`${
+        id === open ? "rotate-180" : ""
+      } h-5 w-5 transition-transform`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+      />
+    </svg>
+  );
+}
 
-  const toggleCollapse = () => {
-    setCollapsed(!collapsed);
-  };
+export default function NavbarComponent() {
+  const [open, setOpen] = useState(0);
 
-  const links = [
-    { icon: <FaUser size={20} />, text: "Profile", href: "/profile/student" },
-    {
-      icon: <FaExclamationTriangle size={20} />,
-      text: "Grievances",
-      href: "/grievances",
-    },
-    { icon: <FaSignOutAlt size={20} />, text: "Outpass", href: "/outpass/student" },
-    { icon: <FaUserMd size={20} />, text: "Counsellor", href: "/counsellor" },
-    { icon: <FaSignOutAlt size={20} />, text: "Logout", href: "/logout" },
+  const handleOpen = (value) => setOpen(open === value ? 0 : value);
+
+  const activeSessions = [
+    { text: "Session 1", href: "/session/student/1" },
+    { text: "Session 2", href: "/session/student/2" },
+    { text: "Session 3", href: "/session/student/3" },
   ];
 
-  const handleLinkClick = (index) => {
-    setActiveLink(index);
-  };
+  const pastHistory = [
+    { text: "History 1", href: "/history/1" },
+    { text: "History 2", href: "/history/2" },
+    { text: "History 3", href: "/history/3" },
+  ];
 
   return (
     <div
-      className={`h-100 min-h-screen bg-[#272715] text-white  ${
-        collapsed ? "w-20" : "w-1/6"
-      } transition-all duration-300 ease-in-out`}
+      className={` bg-[#020C1B] text-white  w-1/6  transition-all duration-300 ease-in-out border-r`}
+      style={{
+        borderImage: "linear-gradient(to top, transparent, #00FFE5)",
+        borderImageSlice: 1,
+      }}
     >
-      <div className="pl-6 pt-4">
-        <button
-          className="w-8 h-8 bg-[#e8e7d854]  flex items-center justify-center rounded-3xl focus:outline-none"
-          onClick={toggleCollapse}
-        >
-          {collapsed ? (
-            <FaChevronRight className="text-white" />
-          ) : (
-            <FaChevronLeft className="text-white" />
-          )}
-        </button>
-      </div>
       <nav className={`flex flex-col mt-8 m-2`}>
-        {links.map(({ icon, text, href }, index) => (
-          <a
-            key={href}
-            className={`py-2 px-4 flex items-center rounded-3xl ${
-              index === activeLink
-                ? "bg-[#e8e7d8] text-black justify-center"
-                : collapsed
-                ? "hover:bg-[#e8e7d8] hover:text-black justify-center"
-                : "hover:bg-[#e8e7d8] hover:text-black justify-start"
-            }`}
-            href={href}
-            onClick={() => handleLinkClick(index)}
+        <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
+          <AccordionHeader
+            onClick={() => handleOpen(1)}
+            className="text-md text-white font-normal hover:text-[#00FFE5] focus:text-[#00FFE5]"
           >
-            <span className="mr-2">{icon}</span>
-            <div
-              style={{
-                display: collapsed ? "none" : "block",
-                paddingLeft: collapsed ? 0 : "0.75rem",
-              }}
-            >
-              {text}
-            </div>
-          </a>
-        ))}
+            Active Sessions
+          </AccordionHeader>
+          <AccordionBody>
+            {activeSessions.map((session, index) => (
+              <Link to={session.href} key={index} className="text-white flex ">
+                <div className="p-2"> {session.text}</div>
+              </Link>
+            ))}
+          </AccordionBody>
+        </Accordion>
+        <Accordion open={open === 2} icon={<Icon id={2} open={open} />}>
+          <AccordionHeader
+            onClick={() => handleOpen(2)}
+            className="text-md text-white font-normal hover:text-[#00FFE5]"
+          >
+            Past History
+          </AccordionHeader>
+          <AccordionBody>
+            {pastHistory.map((history, index) => (
+              <Link to={history.href} key={index} className="text-white flex ">
+                <div className="p-2"> {history.text}</div>
+              </Link>
+            ))}
+          </AccordionBody>
+        </Accordion>
       </nav>
     </div>
   );
-};
-
-export default NavbarComponent;
+}

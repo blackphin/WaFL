@@ -20,6 +20,9 @@ const LineChartComponent = () => {
     title: {
       text: "Monthly Progress",
       left: "center",
+      textStyle: {
+        color: "#ffffff",
+      },
     },
     tooltip: {
       trigger: "axis",
@@ -30,6 +33,10 @@ const LineChartComponent = () => {
     legend: {
       data: ["UV", "PV", "Amt"],
       top: 30,
+      color: "#ffffff",
+      textStyle: {
+        color: "#009788",
+      },
     },
     xAxis: {
       type: "category",
@@ -44,7 +51,7 @@ const LineChartComponent = () => {
         type: "line",
         data: data.map((entry) => entry.uv),
         itemStyle: {
-          color: "#3388FF", // Change the color to blue shade
+          color: "#08FFE4",
         },
       },
       {
@@ -52,7 +59,7 @@ const LineChartComponent = () => {
         type: "line",
         data: data.map((entry) => entry.pv),
         itemStyle: {
-          color: "#0066CC", // Change the color to blue shade
+          color: "#08dbc2", // Change the color to blue shade
         },
       },
       {
@@ -60,7 +67,7 @@ const LineChartComponent = () => {
         type: "line",
         data: data.map((entry) => entry.amt),
         itemStyle: {
-          color: "#003399", // Change the color to blue shade
+          color: "#03a895", // Change the color to blue shade
         },
       },
     ],
@@ -84,7 +91,7 @@ export function PieChartComponent() {
       left: "center",
       top: 0,
       textStyle: {
-        color: "#464646",
+        color: "#ffffff",
       },
     },
     tooltip: {
@@ -115,18 +122,19 @@ export function PieChartComponent() {
         }),
         roseType: "radius",
         label: {
-          color: "rgba(0, 0, 0, 0.6)",
+          color: "rgba(255, 255, 255)",
         },
         labelLine: {
           lineStyle: {
-            color: "rgba(0, 0, 0, 0.6)",
+            color: "rgba(255, 255, 255)",
           },
           smooth: 0.2,
           length: 10,
           length2: 20,
         },
+        // CHANGE!!!
         itemStyle: {
-          color: "#8C6FC7",
+          color: "#3937aa",
         },
         animationType: "scale",
         animationEasing: "easeOutExpo",
@@ -147,6 +155,7 @@ const PieLineContainer = () => {
       style={{
         display: "flex",
       }}
+      className="p-10 w-full"
     >
       <LineChartComponent />
       <PieChartComponent />
