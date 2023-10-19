@@ -1,0 +1,20 @@
+DEFAULT:
+  IntervalDataGenerator: 1
+  NumberOfSamplesGenerated: 50
+  InputDimension: 9
+  OutputDimension: 6
+  NumberOfParticipants: 6
+  Epochs : 3
+  LearningRate: 0.1
+  Precision: 10000
+  WaitingTime: 2
+  BatchSize: 40
+  Rounds : 5
+  TestFilePath: ""
+  TrainFilePath: ""
+  IntervalTime: 40
+  PercentOfDataGenerated: 0.0086
+  PerformProof: False
+  Gas: 100000000000000
+
+  ActivitiesEncoded : [ 1,2,3,4,5,6]
