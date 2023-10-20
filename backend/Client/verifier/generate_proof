@@ -1,0 +1,26 @@
+#!/bin/bash
+
+array_one=( "1" "1" )
+array_two=( "array two part one" "array two part two" )
+export PATH=$PATH:/home/nikolas/.zokrates/bin
+
+
+# Compiling to R1CS intermediate representation
+zokrates compile -i verification.zok
+
+# Setting up the SRS setup
+zokrates setup
+
+# Calculation of witness
+zokrates compute-witness -a 1 1 1 1 1
+
+# Generation of proof(π)
+zokrates generate-proof
+
+# Verification:
+
+# 1. exporting a solidity verifier
+zokrates export-verifier
+
+# 2. verifying natively
+zokrates verify
