@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi"; // Make sure to import configureChains and createConfig
+import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import Dashboard from "./components/Dashboard";
 import ChartContainer from "./components/ChartContainer";
-import '../src/App.css'
+import "../src/App.css";
 
 const { publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -30,4 +30,3 @@ const App = () => {
 };
 
 export default App;
-

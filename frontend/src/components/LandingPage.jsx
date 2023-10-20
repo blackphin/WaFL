@@ -14,7 +14,7 @@ const LandingPage = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <img src="/public/logo1.svg" className="w-8" />
+            <img src="/public/logo1.svg" className="w-12" />
             WaFL
           </div>
           <div className="ml-auto flex gap-8 items-center">
