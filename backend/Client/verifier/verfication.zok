@@ -1,0 +1,133 @@
+from "utils/cast/field_to_u32.zok" import main as field_to_u32
+from "utils/cast/u32_to_field.zok" import main as u32_to_field
+from "utils/cast/field_to_u64.zok" import main as field_to_u64
+from "utils/cast/u64_to_field.zok" import main as u64_to_field
+
+
+const field max = 0-1
+const field thres = 20888242871839275222246405745257275088548364400416034343698204186575808495617
+const u32 id = 9
+const u32 od = 6
+const field od_f = 6
+const u32 bs = 10
+
+
+def add(field x, field y, field x_sign, field y_sign)-> (field, field):
+    field x_cleansed = if x_sign==0 then x else max-x+1 fi
+    field y_cleansed = if y_sign==0 then y else max-y+1 fi
+    field z = if x_sign == y_sign && x_sign == 1 then (max+1-x_cleansed-y_cleansed) else x+y fi
+    field z_sign = if z > thres then 1 else 0 fi
+    return z, z_sign
+
+
+def sub(field x, field y, field x_sign, field y_sign)-> (field, field):
+    field x_cleansed = if x_sign==0 then x else max-x+1 fi
+    field y_cleansed = if y_sign==0 then y else max-y+1 fi
+    field z = if x_sign != y_sign && x_sign == 0 then x_cleansed+y_cleansed else x-y fi
+    field w = if z > thres then 1 else 0 fi
+    return z, w
+
+
+def div(field x, field y, field x_sign, field y_sign)-> (field, field):
+    field x_cleansed = if x_sign==0 then x else max-x+1 fi
+    field y_cleansed = if y_sign==0 then y else max-y+1 fi
+    u64 x_u64 =field_to_u64(x_cleansed)
+    u64 y_u64 = field_to_u64(y_cleansed)
+    u64 remainder = x_u64%y_u64
+    x_cleansed = u64_to_field(x_u64-remainder)
+    field res = x_cleansed/y_cleansed
+    field sign = if x_sign==y_sign || res==0 then 0 else 1 fi
+    res = if sign == 0 then res else max+1-res fi
+    return res,sign
+
+
+def multiply(field x, field y,field x_sign,field  y_sign) -> (field,field):
+    field x_cleansed = if x_sign==0 then x else max-x+1 fi
+    field y_cleansed = if y_sign==0 then y else max-y+1 fi
+    field res = x_cleansed*y_cleansed
+    field sign = if x_sign==y_sign || res==0 then 0 else 1 fi
+    res = if sign==0 then res else max-res+1 fi
+    return res,sign
+
+
+def mse_prime(field[od] y_true,field[od] y_pred,field[od] y_pred_sign,field pr)->(field[od],field[od]):
+    field[od] result=[0;od]
+    field[od] result_sign=[0;od]
+    for u32 i in 0..od do
+        field temp, field temp_sign = subtract(y_pred[i],y_true[i],y_pred_sign[i],0)
+        temp,temp_sign=multiply(temp,2,temp_sign,0)
+        result[i],result_sign[i]=divide(temp,od_f,temp_sign,0)
+    endfor
+    return result,result_sign
+
+
+def forward_propagation_layer(field[od][id] w,field[od] b,field[id] x,field[od][id] w_sign,field[od] b_sign,field[id] x_sign,field pr) -> (field[od],field[od]):
+    field[od] result=b
+    field[od] result_sign=b_sign
+    field[od] wx=b
+    field[od] wx_sign=b
+    for u32 j in 0..od do
+        field temp = 0
+        field temp_sign=0
+            for u32 i in 0..id do
+                    field t_i,field t_i_s = multiply(w[j][i],x[i],w_sign[j][i],x_sign[i])
+                    temp,temp_sign=add(temp,t_i,temp_sign,t_i_s)
+            endfor
+        temp,temp_sign = divide(temp,pr,temp_sign,0)
+        wx[j] = temp
+        wx_sign[j] = temp_sign
+    endfor
+    for u32 i in 0..od do
+       result[i],result_sign[i]=add(wx[i],b[i],wx_sign[i],b_sign[i])
+    endfor
+    return result,result_sign
+
+
+def backward_propagation_layer(field[od][id] w,field[od] b,field[id] x,field[od] output_error,field learning_rate,field pr,field[od][id] w_sign,field[od] b_sign,field[id] x_sign,field[od] output_error_sign) -> (field[od][id],field[od],field[od][id],field[od]):
+    for u32 i in 0..od do
+       field temp, field temp_sign=divide(output_error[i],learning_rate,output_error_sign[i],0)
+        b[i],b_sign[i] =subtract(b[i],temp,b_sign[i],temp_sign)
+    endfor
+    for u32 j in 0..id do
+            for u32 i in 0..od do
+                    field temp, field temp_sign=multiply(output_error[i],x[j],output_error_sign[i],x_sign[j])
+                   temp, temp_sign=divide(temp,learning_rate,temp_sign,0)
+                   temp, temp_sign=divide(temp,pr,temp_sign,0)
+                   w[i][j],w_sign[i][j] =subtract(w[i][j],temp,w_sign[i][j],temp_sign)
+            endfor
+    endfor
+    return w,b,w_sign,b_sign
+
+
+def main(field[od][id] w,field[od][id] w_sign,field[od] b,field[od] b_sign,private field[bs][id] x_train, private field[bs][id] x_train_sign,private field[bs] y_train,field learning_rate,field pr,field[od][id] w_new,field[od] b_new) -> bool:
+    field[od] output_layer=[0;od]
+    field[od] out_sign=[0;od]
+    field[od] error = [0;od]
+    field[od] error_sign = [0;od]
+    field[od] backward_layer = [0;od]
+    field[id] out =[0;id]
+    field[od] backward_layer_sign = [0;od]
+    field[od] y_true = [0;od]
+    for u32 batch_idx in 0..bs do
+       field[id] sample = x_train[batch_idx]
+       field[id] sample_sign = x_train_sign[batch_idx]
+       field idx1=y_train[batch_idx]-1
+       for u32 i in 0..od do
+           field idx2=u32_to_field(i)
+           y_true[i]= if idx1==idx2 then pr else 0 fi
+       endfor
+       output_layer,out_sign = forward_propagation_layer(w,b,sample,w_sign,b_sign,sample_sign,pr)
+       error,error_sign = mse_prime(y_true,output_layer,out_sign,pr)
+       w,b,w_sign,b_sign=backward_propagation_layer(w,b,sample,error,learning_rate,pr,w_sign,b_sign,sample_sign,error_sign)
+    endfor
+    field res=0
+    for u32 i in 0..od do
+            res = res + if b[i] == b_new[i] then 1 else 0 fi
+    endfor
+     for u32 j in 0..id do
+            for u32 i in 0..od do
+            res = res + if w[i][j] == w_new[i][j] then 1 else 0 fi
+            endfor
+    endfor
+
+    return res == u32_to_field(od+fe*od)
