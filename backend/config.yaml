@@ -1,20 +1,41 @@
 DEFAULT:
+  DeviceDataPath: "./Clients/Edge_Device/data"
   IntervalDataGenerator: 1
   NumberOfSamplesGenerated: 50
+  MessageBrokerHost: "localhost"
+  QueueBase: "Queue"
   InputDimension: 9
   OutputDimension: 6
   NumberOfParticipants: 6
-  Epochs : 3
-  LearningRate: 0.1
+  Epochs : 1
+  LearningRate: 1
   Precision: 10000
   WaitingTime: 2
   BatchSize: 40
   Rounds : 5
-  TestFilePath: ""
-  TrainFilePath: ""
+  TestFilePath: "./Clients/Edge_Device/data/test_file.txt"
+  TrainFilePath: "./Clients/Edge_Device/data/"
   IntervalTime: 40
   PercentOfDataGenerated: 0.0086
   PerformProof: False
   Gas: 100000000000000
 
-  ActivitiesEncoded : [ 1,2,3,4,5,6]
+
+  Activities : [5, 11, 12, 14, 15, 17]
+  ActivitiesEncoded : [1,2,3,4,5,6]
+  ActivityMappings:
+    2: 1
+    3: 1
+    4: 1
+    16: 15
+    6: 5
+    10: 11
+    13: 14
+    7: 1
+  ActivityEncoding:
+    5: 1
+    11: 2
+    12: 3
+    14: 4
+    15: 5
+    17: 6
