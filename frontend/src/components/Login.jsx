@@ -2,27 +2,38 @@ import React, { useState } from "react";
 import { ConnectButton } from "@suiet/wallet-kit";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { useSDK } from "@metamask/sdk-react";
+import { OktoConnector } from "@okto_wallet/okto-connect-sdk";
+import { useConnect } from "wagmi";
+
+const oktoConnector = new OktoConnector({
+  options: {
+    projectId: "adecec5237aed1fe115e84ac2b9ea981",
+  },
+});
 
 const Login = () => {
   const [account, setAccount] = useState();
   const { sdk, connected, connecting, provider, chainId } = useSDK();
+  const { connect: connectWithWagmi } = useConnect({
+    connector: oktoConnector,
+  });
 
-  const connect = async () => {
+  const connectToMetamask = async () => {
     try {
       const accounts = await sdk?.connect();
       setAccount(accounts?.[0]);
     } catch (err) {
-      console.warn(`failed to connect..`, err);
+      console.warn("Failed to connect to Metamask:", err);
     }
   };
+
   return (
-    <div className=" h-screen">
+    <div className="h-screen">
       <div
         className="p-8 h-full rounded-md"
         style={{
-          background: "rgb(0,54,59)",
           background:
-            "radial-gradient(circle, rgba(0,54,59,1) 0%, rgba(2,12,27,1) 100%)",
+            "rgb(0,54,59) radial-gradient(circle, rgba(0,54,59,1) 0%, rgba(2,12,27,1) 100%)",
           backdropFilter: "blur(10px)",
           backgroundColor: "rgba(0, 54, 59, 0.4)",
         }}
@@ -42,22 +53,22 @@ const Login = () => {
                 width: "100%",
               }}
               className="px-4 w-100 py-4 font-semibold rounded-2xl"
-              onClick={connect}
+              onClick={connectToMetamask}
             >
-              <span className="">
-                CONNECT<span className="pl-4">via</span>
+              <span>
+                CONNECT <span className="pl-4">via</span>
               </span>
-              <img src="/public/metamask.svg" className="w-8" />
+              <img src="/public/metamask.svg" alt="Metamask" className="w-8" />
             </button>
-            {/* {connected && (
-            <div>
-              <>
-                {chainId && `Connected chain: ${chainId}`}
-                <p></p>
-                {account && `Connected account: ${account}`}
-              </>
-            </div>
-          )} */}
+            {connected && (
+              <div>
+                <>
+                  {chainId && `Connected chain: ${chainId}`}
+                  <p></p>
+                  {account && `Connected account: ${account}`}
+                </>
+              </div>
+            )}
             <ConnectButton
               style={{
                 backgroundColor: "transparent",
@@ -72,9 +83,9 @@ const Login = () => {
               <span>
                 CONNECT <span className="pl-4">via</span>
               </span>
-              <img src="/public/sui.svg" className="text-[#00FFE5]" />
+              <img src="/public/sui.svg" alt="SUI" className="text-[#00FFE5]" />
             </ConnectButton>
-            <div
+            <button
               style={{
                 backgroundColor: "#00FFE5",
                 color: "black",
@@ -84,9 +95,13 @@ const Login = () => {
                 width: "100%",
               }}
               className="px-4 w-100 py-4 font-semibold rounded-2xl"
+              onClick={() => connectWithWagmi()}
             >
-              OKTA
-            </div>
+              <span>
+                CONNECT <span className="pl-4">via</span>
+              </span>
+              <img src="/public/okto.svg" alt="Metamask" className="w-24" />
+            </button>
           </div>
           <div>
             <Player

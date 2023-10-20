@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="flex flex-col justify-center  text-white">
+    <div className="flex flex-col justify-center  text-white h-screen">
       <div className="text-4xl font-semibold text-center">About Us</div>
       <h1 className="text-3xl text-[#00FFe5]">Web3 Jargons:</h1>
       <p className="p-10">
