@@ -36,3 +36,5 @@ ipython_config.py
 .venv
 env/
 venv/
+
+package-lock.json
