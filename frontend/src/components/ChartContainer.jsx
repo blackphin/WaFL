@@ -14,7 +14,7 @@ const ChartContainer = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <img src="/public/logo.svg" className="w-8" />
+            <img src="/public/logo1.svg" className="w-8" />
             WaFL
           </div>
           <div className="ml-auto flex gap-8">

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@suiet/wallet-kit": "^0.2.19",
     "react-router": "^6.17.0"
   }
 }
