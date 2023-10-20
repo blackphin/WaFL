@@ -130,4 +130,4 @@ def main(field[od][id] w,field[od][id] w_sign,field[od] b,field[od] b_sign,priva
             endfor
     endfor
 
-    return res == u32_to_field(od+fe*od)
+    return res == u32_to_field(od+id*od)
