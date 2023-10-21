@@ -63,42 +63,6 @@ const LineChartComponent = ({ session }) => {
         },
         smooth: true,
       },
-      // {
-      //   name: "Series 2",
-      //   type: "line",
-      //   data: sessionData.dataAccuracy.map((entry) => entry.uv2),
-      //   itemStyle: {
-      //     color: "#08dbc2",
-      //   },
-      //   smooth: true,
-      // },
-      // {
-      //   name: "Series 3",
-      //   type: "line",
-      //   data: sessionData.dataAccuracy.map((entry) => entry.uv3),
-      //   itemStyle: {
-      //     color: "#03a895",
-      //   },
-      //   smooth: true,
-      // },
-      // {
-      //   name: "Series 4",
-      //   type: "line",
-      //   data: sessionData.dataAccuracy.map((entry) => entry.uv4),
-      //   itemStyle: {
-      //     color: "#ff5733",
-      //   },
-      //   smooth: true,
-      // },
-      // {
-      //   name: "Series 5",
-      //   type: "line",
-      //   data: sessionData.dataAccuracy.map((entry) => entry.uv5),
-      //   itemStyle: {
-      //     color: "#ffda68",
-      //   },
-      //   smooth: true,
-      // },
     ],
   };
 
@@ -176,33 +140,6 @@ const LineChartComponentLoss = ({ session }) => {
         data: sessionData.dataLoss.map((entry) => entry.uv2),
         itemStyle: {
           color: "#08dbc2",
-        },
-        smooth: true,
-      },
-      {
-        name: "Loss S3",
-        type: "line",
-        data: sessionData.dataLoss.map((entry) => entry.uv3),
-        itemStyle: {
-          color: "#03a895",
-        },
-        smooth: true,
-      },
-      {
-        name: "Loss S4",
-        type: "line",
-        data: sessionData.dataLoss.map((entry) => entry.uv4),
-        itemStyle: {
-          color: "#ff5733",
-        },
-        smooth: true,
-      },
-      {
-        name: "Loss S5",
-        type: "line",
-        data: sessionData.dataLoss.map((entry) => entry.uv5),
-        itemStyle: {
-          color: "#ffda68",
         },
         smooth: true,
       },
