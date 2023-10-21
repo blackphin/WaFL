@@ -1,56 +1,37 @@
 #!/bin/bash
 
-# Function to check if a command is available
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-# Check and install Python if not installed
-if ! command_exists python3; then
+# Check if Python is installed
+if ! command -v python &>/dev/null; then
     echo "Python is not installed. Installing Python..."
-    if command_exists apt-get; then
-        sudo apt-get update
-        sudo apt-get install -y python3
-        elif command_exists yum; then
-        sudo yum install -y python3
-    else
-        echo "Unsupported package manager. Please install Python manually."
-        exit 1
-    fi
-else
-    echo "Python is already installed."
+    # Install Python (adjust the package manager for your system)
+    sudo apt-get update
+    sudo apt-get install python3
 fi
 
-# Check and install npm if not installed
-if ! command_exists npm; then
+# Check if npm is installed
+if ! command -v npm &>/dev/null; then
     echo "npm is not installed. Installing npm..."
-    if command_exists apt-get; then
-        sudo apt-get update
-        sudo apt-get install -y npm
-        elif command_exists yum; then
-        sudo yum install -y npm
-    else
-        echo "Unsupported package manager. Please install npm manually."
-        exit 1
-    fi
-else
-    echo "npm is already installed."
+    # Install npm (adjust the package manager for your system)
+    sudo apt-get update
+    sudo apt-get install npm
 fi
 
-# Install Python dependencies from requirements.txt
-if [ -f "backend/requirements.txt" ]; then
-    echo "Installing Python dependencies from requirements.txt..."
-    pip install -r backend/requirements.txt
-else
-    echo "requirements.txt not found in the backend directory."
+# Create a virtual environment in the 'backend' folder
+cd backend
+if [ ! -d .venv ]; then
+    python -m venv .venv
 fi
 
-# Install npm dependencies from package.json
-if [ -f "backend/package.json" ]; then
-    echo "Installing npm dependencies from package.json..."
-    (cd backend && npm install)
-else
-    echo "package.json not found in the backend directory."
-fi
+# Activate the virtual environment
+source .venv/bin/activate
 
-echo "Setup complete."
+# Install Python requirements
+pip install -r requirements.txt
+
+# Install npm requirements
+npm install
+
+# Deactivate the virtual environment
+deactivate
+
+echo "Setup complete. Python, npm, and project requirements are installed."
