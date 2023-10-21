@@ -13,8 +13,8 @@ DEFAULT:
   WaitingTime: 2
   BatchSize: 40
   Rounds : 5
-  TestFilePath: "./Clients/Edge_Device/data/test_file.txt"
-  TrainFilePath: "./Clients/Edge_Device/data/"
+  TestFilePath: "./backend/src/data/test_file.txt"
+  TrainFilePath: "./backend/src/data/"
   IntervalTime: 40
   PercentOfDataGenerated: 0.0086
   PerformProof: False
