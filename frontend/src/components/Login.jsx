@@ -76,7 +76,11 @@ const Login = ({ walletAddress, setWalletAddress }) => {
               <span>
                 CONNECT <span className="pl-4">via</span>
               </span>
-              <img src="/public/metamask.svg" alt="Metamask" className="w-8" />
+              <img
+                src="https://svgshare.com/i/ykU.svg"
+                alt="Metamask"
+                className="w-8"
+              />
             </button>
             <ConnectButton
               style={{
@@ -92,7 +96,11 @@ const Login = ({ walletAddress, setWalletAddress }) => {
               <span>
                 CONNECT <span className="pl-4">via</span>
               </span>
-              <img src="/public/sui.svg" alt="SUI" className="text-[#00FFE5]" />
+              <img
+                src=" https://svgshare.com/i/ymK.svg"
+                alt="SUI"
+                className="text-[#00FFE5]"
+              />
             </ConnectButton>
             <button
               style={{
@@ -111,7 +119,11 @@ const Login = ({ walletAddress, setWalletAddress }) => {
               <span>
                 CONNECT <span className="pl-4">via</span>
               </span>
-              <img src="/public/okto.svg" alt="OktoWallet" className="w-24" />
+              <img
+                src=" https://svgshare.com/i/ynA.svg"
+                alt="OktoWallet"
+                className="w-24"
+              />
             </button>
           </div>
           <div>
