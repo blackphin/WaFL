@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const LandingPage = () => {
   return (
     <>
-      <div className="h-screen">
+      <div className="h-screen ">
         <div
           className="flex text-white border-b p-4 "
           style={{
@@ -14,7 +14,7 @@ const LandingPage = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <img src="/public/logo1.svg" className="w-12" />
+            <img src="/public/logo1.svg" className="w-12" alt="Logo" /> 
             WaFL
           </div>
           <div className="ml-auto flex gap-8 items-center">
@@ -24,18 +24,17 @@ const LandingPage = () => {
         </div>
         <div className="text-white flex justify-between h-full">
           <div className="flex flex-col justify-center gap-8 w-1/2">
-            <div className="font-bold text-5xl text-[#00FFE5]">
-              Neural Network Stuff
+            <div className="font-bold text-4xl text-[#00FFE5]">
+              WaFL : Web3 accelerated Federated Learning
             </div>
             <div className="text-xl">
-              Turning crypto newbies into DeFi wizards, because even your cat
-              understands smart contracts better than you.
+            Pairing ML Waffles with the sweetness of Web3
             </div>
-            {/* <Link to="/dashboard"> */}
-            <button className="bg-[#00FFE5] p-3 text-black rounded-full font-semibold w-40">
-              Connect Wallet
-            </button>
-            {/* </Link> */}
+            <Link to="/login">
+              <button className="bg-[#00FFE5] p-3 text-black rounded-full font-semibold w-40">
+                Connect Wallet
+              </button>
+            </Link>
             <p className="text-sm text-blue-gray-300 relative bottom-5">
               Don't have a wallet yet ? Try our new{" "}
               <a className="text-[#00FFE5] underline">zkLogin</a>
@@ -45,7 +44,7 @@ const LandingPage = () => {
             <Player
               autoplay
               loop
-              src="/public/animation.json"
+              src="https://lottie.host/348f4e1f-42b0-4b74-87f5-199a1f07a27f/k6MYvQpIBN.json" // Use the imported Lottie animation JSON
               style={{ height: "400px", width: "400px" }}
             >
               <Controls buttons={["play", "repeat", "frame", "debug"]} />

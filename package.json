@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@pushprotocol/uiweb": "^1.1.15"
+  }
+}

@@ -2,23 +2,26 @@ import React from "react";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import ReactEcharts from "echarts-for-react";
+import Data from "../DummyJSON/Charts.json";
 
 echarts.use([CanvasRenderer]);
 
-const data = [
-  { name: "Jan", uv: 400, pv: 2400, amt: 2400 },
-  { name: "Feb", uv: 300, pv: 1398, amt: 2210 },
-  { name: "Mar", uv: 200, pv: 9800, amt: 2290 },
-  { name: "Apr", uv: 278, pv: 3908, amt: 2000 },
-  { name: "May", uv: 189, pv: 4800, amt: 2181 },
-  { name: "Jun", uv: 239, pv: 3800, amt: 2500 },
-  { name: "Jul", uv: 349, pv: 4300, amt: 2100 },
-];
+const LineChartComponent = ({ session }) => {
+  let sessionData;
 
-const LineChartComponent = () => {
+  if (session === 1) {
+    sessionData = Data.session1;
+  } else if (session === 2) {
+    sessionData = Data.session2;
+  } else if (session === 3) {
+    sessionData = Data.session3;
+  } else {
+    return null;
+  }
+
   const option = {
     title: {
-      text: "Monthly Progress",
+      text: "Accuracy",
       left: "center",
       textStyle: {
         color: "#ffffff",
@@ -31,44 +34,177 @@ const LineChartComponent = () => {
       },
     },
     legend: {
-      data: ["UV", "PV", "Amt"],
+      data: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
       top: 30,
-      color: "#ffffff",
       textStyle: {
         color: "#009788",
       },
     },
     xAxis: {
       type: "category",
-      data: data.map((entry) => entry.name),
+      data: sessionData.dataAccuracy.map((entry) => entry.name),
+      interval: 5,
+      lineStyle: {
+        width: 2,
+      },
     },
     yAxis: {
       type: "value",
+      min: 0.97,
+      max: 1.0,
     },
     series: [
       {
-        name: "UV",
+        name: "Series 1",
         type: "line",
-        data: data.map((entry) => entry.uv),
+        data: sessionData.dataAccuracy.map((entry) => entry.uv1),
         itemStyle: {
           color: "#08FFE4",
         },
+        smooth: true,
+      },
+      // {
+      //   name: "Series 2",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv2),
+      //   itemStyle: {
+      //     color: "#08dbc2",
+      //   },
+      //   smooth: true,
+      // },
+      // {
+      //   name: "Series 3",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv3),
+      //   itemStyle: {
+      //     color: "#03a895",
+      //   },
+      //   smooth: true,
+      // },
+      // {
+      //   name: "Series 4",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv4),
+      //   itemStyle: {
+      //     color: "#ff5733",
+      //   },
+      //   smooth: true,
+      // },
+      // {
+      //   name: "Series 5",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv5),
+      //   itemStyle: {
+      //     color: "#ffda68",
+      //   },
+      //   smooth: true,
+      // },
+    ],
+  };
+
+  return (
+    <div style={{ width: "50%", height: "100%" }}>
+      <ReactEcharts
+        option={option}
+        style={{ width: "100%", height: "300px" }}
+        opts={{ renderer: "canvas" }}
+      />
+    </div>
+  );
+};
+
+const LineChartComponentLoss = ({ session }) => {
+  let sessionData;
+
+  if (session === 1) {
+    sessionData = Data.session1;
+  } else if (session === 2) {
+    sessionData = Data.session2;
+  } else if (session === 3) {
+    sessionData = Data.session3;
+  } else {
+    return null;
+  }
+
+  const option = {
+    title: {
+      text: "Train Loss",
+      left: "center",
+      textStyle: {
+        color: "#ffffff",
+      },
+    },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "cross",
+      },
+    },
+    legend: {
+      data: ["Loss S1", "Loss S2", "Loss S3", "Loss S4", "Loss S5"],
+      top: 30,
+      textStyle: {
+        color: "#009788",
+      },
+    },
+    xAxis: {
+      type: "category",
+      data: sessionData.dataLoss.map((entry) => entry.name),
+      interval: 10,
+    },
+    yAxis: {
+      type: "value",
+      min: 1.0,
+      max: 2.0,
+    },
+    series: [
+      {
+        name: "Loss S1",
+        type: "line",
+        data: sessionData.dataLoss.map((entry) => entry.uv1),
+        itemStyle: {
+          color: "#ffffff",
+        },
+        lineStyle: {
+          width: 2,
+        },
+        smooth: true,
       },
       {
-        name: "PV",
+        name: "Loss S2",
         type: "line",
-        data: data.map((entry) => entry.pv),
+        data: sessionData.dataLoss.map((entry) => entry.uv2),
         itemStyle: {
-          color: "#08dbc2", // Change the color to blue shade
+          color: "#08dbc2",
         },
+        smooth: true,
       },
       {
-        name: "Amt",
+        name: "Loss S3",
         type: "line",
-        data: data.map((entry) => entry.amt),
+        data: sessionData.dataLoss.map((entry) => entry.uv3),
         itemStyle: {
-          color: "#03a895", // Change the color to blue shade
+          color: "#03a895",
         },
+        smooth: true,
+      },
+      {
+        name: "Loss S4",
+        type: "line",
+        data: sessionData.dataLoss.map((entry) => entry.uv4),
+        itemStyle: {
+          color: "#ff5733",
+        },
+        smooth: true,
+      },
+      {
+        name: "Loss S5",
+        type: "line",
+        data: sessionData.dataLoss.map((entry) => entry.uv5),
+        itemStyle: {
+          color: "#ffda68",
+        },
+        smooth: true,
       },
     ],
   };
@@ -84,81 +220,28 @@ const LineChartComponent = () => {
   );
 };
 
-export function PieChartComponent() {
-  const option = {
-    title: {
-      text: "Marketing Channels",
-      left: "center",
-      top: 0,
-      textStyle: {
-        color: "#ffffff",
-      },
-    },
-    tooltip: {
-      trigger: "item",
-    },
-    visualMap: {
-      show: false,
-      min: 80,
-      max: 600,
-      inRange: {
-        colorLightness: [0, 1],
-      },
-    },
-    series: [
-      {
-        name: "Access From",
-        type: "pie",
-        radius: "65%",
-        center: ["50%", "50%"],
-        data: [
-          { value: 212, name: "Social Media" },
-          { value: 410, name: "Referral" },
-          { value: 348, name: "Print Media" },
-          { value: 283, name: "Television Ads" },
-          { value: 250, name: "Billboard" },
-        ].sort(function (a, b) {
-          return a.value - b.value;
-        }),
-        roseType: "radius",
-        label: {
-          color: "rgba(255, 255, 255)",
-        },
-        labelLine: {
-          lineStyle: {
-            color: "rgba(255, 255, 255)",
-          },
-          smooth: 0.2,
-          length: 10,
-          length2: 20,
-        },
-        // CHANGE!!!
-        itemStyle: {
-          color: "#3937aa",
-        },
-        animationType: "scale",
-        animationEasing: "easeOutExpo",
-        animationDelay: 100,
-      },
-    ],
-  };
-  return (
-    <div style={{ width: "50%", height: "300px" }}>
-      <ReactEcharts option={option} />
-    </div>
-  );
-}
-
-const PieLineContainer = () => {
+const PieLineContainer = ({ session }) => {
   return (
     <div
-      style={{
-        display: "flex",
-      }}
-      className="p-10 w-full"
+      style={{ display: "flex", flexDirection: "column" }}
+      className="w-full"
     >
-      <LineChartComponent />
-      <PieChartComponent />
+      <div
+        style={{
+          display: "flex",
+        }}
+        className="p-10 w-full"
+      >
+        <LineChartComponent session={session} />
+        <LineChartComponentLoss session={session} />
+      </div>
+      <div class="glassmorphism px-10 text-white">
+        <h2 className="text-[#00EEf8]">Neural Network Parameters</h2>
+        <ul>
+          <li>Epochs: 100</li>
+          <li>Accuracy: 0.95</li>
+        </ul>
+      </div>
     </div>
   );
 };

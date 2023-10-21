@@ -6,7 +6,7 @@ if ! command -v python3 &>/dev/null; then
     # Install Python (adjust the package manager for your system)
     sudo apt-get update
     sudo apt-get install python3
-    
+
 fi
 sudo apt install python3-pip
 sudo apt install python3.10-venv
@@ -36,6 +36,39 @@ npm install
 
 # Deactivate the virtual environment
 deactivate
+
+# Check if curl is installed
+if ! command_exists curl; then
+  # Install curl based on the OS type
+  if [[ "$(uname -s)" == "Linux" ]]; then
+    # For most Linux distributions
+    if command_exists apt-get; then
+      sudo apt-get update
+      sudo apt-get install curl -y
+    elif command_exists yum; then
+      sudo yum install curl -y
+    elif command_exists zypper; then
+      sudo zypper install curl -y
+    else
+      echo "Error: Unsupported Linux distribution. Please install curl manually."
+      exit 1
+    fi
+  elif [[ "$(uname -s)" == "Darwin" ]]; then
+    # For macOS using Homebrew
+    if command_exists brew; then
+      brew install curl
+    else
+      echo "Error: Homebrew is not installed. Please install curl manually."
+      exit 1
+    fi
+  else
+    echo "Error: Unsupported operating system. Please install curl manually."
+    exit 1
+  fi
+fi
+
+# Install Zokrates
+curl -LSfs get.zokrat.es | sh
 
 # Create the directory structure and files
 mkdir src

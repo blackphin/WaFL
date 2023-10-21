@@ -1,39 +1,51 @@
 import React from "react";
+import { Player, Controls } from "@lottiefiles/react-lottie-player";
 
 const About = () => {
   return (
-    <div className="flex flex-col justify-center  text-white h-screen">
-      <div className="text-4xl font-semibold text-center">About Us</div>
-      <h1 className="text-3xl text-[#00FFe5]">Web3 Jargons:</h1>
-      <p className="p-10">
-        In the world of Web3, the rise of Decentralized Autonomous Organizations
-        (DAOs) has been nothing short of revolutionary. These organizations
-        leverage blockchain technology to enhance governance and decision-making
-        processes, giving participants a more decentralized and transparent
-        voice in the decision-making sphere. Smart contracts executed on
-        platforms like the Ethereum Virtual Machine (EVM) have become integral
-        to the Web3 ecosystem.
-        <br /> These self-executing agreements ensure trustless interactions,
-        enabling a wide array of applications from token exchanges to complex
-        financial instruments. Non-Fungible Tokens (NFTs) have taken the digital
-        world by storm, providing a way to represent and trade unique digital
-        assets on the blockchain. The concept of Web3 interoperability is a
-        pivotal one, emphasizing the need for systems to communicate and
-        exchange data across various blockchains.
-        <br /> Decentralized Finance, or DeFi, is reshaping traditional
-        financial services through blockchain technology. This innovative
-        approach to finance promotes decentralization, peer-to-peer lending, and
-        open-access financial products. The study of token economics, known as
-        Tokenomics, delves into the intricate economic systems and incentives
-        within blockchain ecosystems, guiding the development of new projects
-        and crypto assets. To maintain the integrity of blockchain networks,
-        consensus mechanisms such as Proof of Stake (PoS) and Proof of Work
-        (PoW) play a crucial role in securing and validating transactions.
-        Additionally, the utilization of Oracles has become common practice.
-        Oracles act as bridges between smart contracts and the real world by
-        providing reliable external data, expanding the functionality and use
-        cases of blockchain-based applications.
-      </p>
+    <div className="flex flex-col justify-center  text-white h-screen p-4">
+      <div className="text-4xl font-semibold text-start pl-10 ">About Us</div>
+      <div className="flex">
+        <p className="p-10 text-sm">
+          <span className="text-[#00FFe5] text-xl">Federated Learning</span>
+          enables collaborative model training across entities while preserving
+          <span className="text-[#00FFe5] text-xl"> data privacy</span> . It
+          works by local client model training and sharing only model weights
+          with an aggregator. However, it has some drawbacks: clients must trust
+          the aggregator for accurate aggregation, and malicious clients can
+          compromise the model. To address these challenges, we've developed
+          WaFL, a secure solution with two key components:
+          <br /> <br /> 1. An{" "}
+          <span className="text-[#00FFe5] text-xl">
+            aggregator smart contract{" "}
+          </span>{" "}
+          ensures trustless aggregation of client model updates.
+          <br /> <br />
+          2. Off-chain{" "}
+          <span className="text-[#00FFe5] text-xl">
+            zkSNARK verification
+          </span>{" "}
+          guarantees the integrity of client model weights before aggregation.
+          <br />
+          <br /> We offer middleware to facilitate client-aggregator
+          interactions and streamline data flow, allowing clients to focus on
+          their local models. Our setup process makes it easy for everyone to
+          use WaFL. Additionally, we provide a service for users to visualize
+          model metrics like accuracy and loss scores. Users can sign up on our
+          website to monitor their model's progress and fine-tune
+          hyperparameters.
+        </p>
+        <div>
+          <Player
+            autoplay
+            loop
+            src="https://lottie.host/15698918-812e-46d7-badb-e6aeac4c2ce2/1yRyplFsrD.json"
+            style={{ height: "400px", width: "400px" }}
+          >
+            <Controls buttons={["play", "repeat", "frame", "debug"]} />
+          </Player>
+        </div>
+      </div>
     </div>
   );
 };
