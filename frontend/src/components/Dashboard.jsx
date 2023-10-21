@@ -1,6 +1,7 @@
 import React from "react";
 import LandingPage from "./LandingPage";
 import About from "./About";
+import GetStarted from "./GetStarted";
 // import NotificationComponent from "./NotificationComponent";
 
 const Dashboard = () => {
@@ -9,6 +10,7 @@ const Dashboard = () => {
       {/* <NotificationComponent /> */}
       <LandingPage />
       <About />
+      <GetStarted />
     </div>
   );
 };
