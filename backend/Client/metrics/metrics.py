@@ -10,7 +10,8 @@ class Metrics:
         self.round_gas = {"Round-Number": [], "Gas-Costs": []}
         self.round_proof_time = {"Round-Number": [], "Time-Taken": []}
         self.round_train_time = {"Round-Number": [], "Time-Taken": []}
-        self.round_update_blockchain_time = {"Round-Number": [], "Time-Taken": []}
+        self.round_update_blockchain_time = {
+            "Round-Number": [], "Time-Taken": []}
         self.round_score = {"Round-Number": [], "Score": []}
         self.round_classification_report = {"Round-Number": []}
 
