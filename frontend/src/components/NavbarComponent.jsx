@@ -4,8 +4,6 @@ import {
   AccordionHeader,
   AccordionBody,
 } from "@material-tailwind/react";
-import { FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Import from react-router-dom
 
 function Icon({ id, open }) {
   return (
@@ -28,22 +26,17 @@ function Icon({ id, open }) {
   );
 }
 
-export default function NavbarComponent() {
+export default function NavbarComponent({session, setSession}) {
   const [open, setOpen] = useState(0);
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
-
   const activeSessions = [
-    { text: "Session 1", href: "/session/student/1" },
-    { text: "Session 2", href: "/session/student/2" },
-    { text: "Session 3", href: "/session/student/3" },
+    { text: "Session 1", value: 1 },
+    { text: "Session 2", value: 2 },
+    { text: "Session 3", value: 3 },
   ];
 
-  const pastHistory = [
-    { text: "History 1", href: "/history/1" },
-    { text: "History 2", href: "/history/2" },
-    { text: "History 3", href: "/history/3" },
-  ];
+  console.log(session)
 
   return (
     <div
@@ -63,9 +56,13 @@ export default function NavbarComponent() {
           </AccordionHeader>
           <AccordionBody>
             {activeSessions.map((session, index) => (
-              <Link to={session.href} key={index} className="text-white flex ">
+              <div
+                key={index}
+                className="text-white flex cursor-pointer hover:text-[#00FFE5]"
+                onClick={() => setSession(session.value)}
+              >
                 <div className="p-2"> {session.text}</div>
-              </Link>
+              </div>
             ))}
           </AccordionBody>
         </Accordion>
@@ -74,14 +71,10 @@ export default function NavbarComponent() {
             onClick={() => handleOpen(2)}
             className="text-md text-white font-normal hover:text-[#00FFE5]"
           >
-            Past History
+           Getting Started
           </AccordionHeader>
           <AccordionBody>
-            {pastHistory.map((history, index) => (
-              <Link to={history.href} key={index} className="text-white flex ">
-                <div className="p-2"> {history.text}</div>
-              </Link>
-            ))}
+            
           </AccordionBody>
         </Accordion>
       </nav>

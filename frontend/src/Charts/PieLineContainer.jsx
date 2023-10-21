@@ -2,28 +2,23 @@ import React from "react";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import ReactEcharts from "echarts-for-react";
+import Data from "../DummyJSON/Charts.json";
 
 echarts.use([CanvasRenderer]);
 
-const dataAccuracy = [
-  { name: 0, uv1: 0.97, uv2: 0.98, uv3: 0.99, uv4: 0.99, uv5: 0.98 },
-  { name: 200, uv1: 0.98, uv2: 0.99, uv3: 1.0, uv4: 0.98, uv5: 0.99 },
-  { name: 400, uv1: 0.985, uv2: 0.995, uv3: 0.999, uv4: 0.98, uv5: 0.97 },
-  { name: 600, uv1: 0.988, uv2: 0.998, uv3: 0.9995, uv4: 0.999, uv5: 0.98 },
-  { name: 800, uv1: 0.989, uv2: 0.999, uv3: 0.9997, uv4: 0.99, uv5: 1.0 },
-  { name: 1000, uv1: 0.99, uv2: 1.0, uv3: 1.0, uv4: 0.99, uv5: 0.98 },
-];
+const LineChartComponent = ({ session }) => {
+  let sessionData;
 
-const dataLoss = [
-  { name: 1, uv1: 1.5, uv2: 1.6, uv3: 1.7, uv4: 1.6, uv5: 1.7 },
-  { name: 11, uv1: 1.55, uv2: 1.65, uv3: 1.75, uv4: 1.7, uv5: 1.8 },
-  { name: 21, uv1: 1.6, uv2: 1.7, uv3: 1.8, uv4: 1.75, uv5: 1.85 },
-  { name: 31, uv1: 1.65, uv2: 1.75, uv3: 1.85, uv4: 1.8, uv5: 1.9 },
-  { name: 41, uv1: 1.7, uv2: 1.8, uv3: 1.9, uv4: 1.85, uv5: 1.95 },
-  { name: 51, uv1: 1.75, uv2: 1.85, uv3: 1.95, uv4: 1.9, uv5: 1.97 },
-];
+  if (session === 1) {
+    sessionData = Data.session1;
+  } else if (session === 2) {
+    sessionData = Data.session2;
+  } else if (session === 3) {
+    sessionData = Data.session3;
+  } else {
+    return null;
+  }
 
-const LineChartComponent = () => {
   const option = {
     title: {
       text: "Accuracy",
@@ -47,7 +42,7 @@ const LineChartComponent = () => {
     },
     xAxis: {
       type: "category",
-      data: dataAccuracy.map((entry) => entry.name),
+      data: sessionData.dataAccuracy.map((entry) => entry.name),
       interval: 200,
     },
     yAxis: {
@@ -59,42 +54,51 @@ const LineChartComponent = () => {
       {
         name: "Series 1",
         type: "line",
-        data: dataAccuracy.map((entry) => entry.uv1),
+        data: sessionData.dataAccuracy.map((entry) => entry.uv1),
         itemStyle: {
           color: "#08FFE4",
         },
+        smooth:true
       },
       {
         name: "Series 2",
         type: "line",
-        data: dataAccuracy.map((entry) => entry.uv2),
+        data: sessionData.dataAccuracy.map((entry) => entry.uv2),
         itemStyle: {
           color: "#08dbc2",
         },
+        smooth:true
+
       },
       {
         name: "Series 3",
         type: "line",
-        data: dataAccuracy.map((entry) => entry.uv3),
+        data: sessionData.dataAccuracy.map((entry) => entry.uv3),
         itemStyle: {
           color: "#03a895",
         },
+        smooth:true
+
       },
       {
         name: "Series 4",
         type: "line",
-        data: dataAccuracy.map((entry) => entry.uv4),
+        data: sessionData.dataAccuracy.map((entry) => entry.uv4),
         itemStyle: {
           color: "#ff5733",
         },
+        smooth:true
+
       },
       {
         name: "Series 5",
         type: "line",
-        data: dataAccuracy.map((entry) => entry.uv5),
+        data: sessionData.dataAccuracy.map((entry) => entry.uv5),
         itemStyle: {
           color: "#ffda68",
         },
+        smooth:true
+
       },
     ],
   };
@@ -110,7 +114,20 @@ const LineChartComponent = () => {
   );
 };
 
-const LineChartComponentLoss = () => {
+const LineChartComponentLoss = ({ session }) => {
+  let sessionData;
+
+  if (session === 1) {
+    sessionData = Data.session1;
+  } else if (session === 2) {
+    sessionData = Data.session2;
+  } else if (session === 3) {
+    sessionData = Data.session3;
+  } else {
+    // Handle the case when an invalid session is provided
+    return null;
+  }
+
   const option = {
     title: {
       text: "Train Loss",
@@ -134,7 +151,7 @@ const LineChartComponentLoss = () => {
     },
     xAxis: {
       type: "category",
-      data: dataLoss.map((entry) => entry.name),
+      data: sessionData.dataLoss.map((entry) => entry.name),
       interval: 10,
     },
     yAxis: {
@@ -146,42 +163,50 @@ const LineChartComponentLoss = () => {
       {
         name: "Loss S1",
         type: "line",
-        data: dataLoss.map((entry) => entry.uv1),
+        data: sessionData.dataLoss.map((entry) => entry.uv1),
         itemStyle: {
-          color: "#08FFE4",
+          color: "#ffffff",
         },
+        lineStyle: {
+          width: 2,
+        },
+        smooth: true,
       },
       {
         name: "Loss S2",
         type: "line",
-        data: dataLoss.map((entry) => entry.uv2),
+        data: sessionData.dataLoss.map((entry) => entry.uv2),
         itemStyle: {
           color: "#08dbc2",
         },
+        smooth: true,
       },
       {
         name: "Loss S3",
         type: "line",
-        data: dataLoss.map((entry) => entry.uv3),
+        data: sessionData.dataLoss.map((entry) => entry.uv3),
         itemStyle: {
           color: "#03a895",
         },
+        smooth: true,
       },
       {
         name: "Loss S4",
         type: "line",
-        data: dataLoss.map((entry) => entry.uv4),
+        data: sessionData.dataLoss.map((entry) => entry.uv4),
         itemStyle: {
           color: "#ff5733",
         },
+        smooth: true,
       },
       {
         name: "Loss S5",
         type: "line",
-        data: dataLoss.map((entry) => entry.uv5),
+        data: sessionData.dataLoss.map((entry) => entry.uv5),
         itemStyle: {
           color: "#ffda68",
         },
+        smooth: true,
       },
     ],
   };
@@ -197,16 +222,28 @@ const LineChartComponentLoss = () => {
   );
 };
 
-const PieLineContainer = () => {
+const PieLineContainer = ({ session }) => {
   return (
     <div
-      style={{
-        display: "flex",
-      }}
-      className="p-10 w-full"
+      style={{ display: "flex", flexDirection: "column" }}
+      className="w-full"
     >
-      <LineChartComponent />
-      <LineChartComponentLoss />
+      <div
+        style={{
+          display: "flex",
+        }}
+        className="p-10 w-full"
+      >
+        <LineChartComponent session={session} />
+        <LineChartComponentLoss session={session} />
+      </div>
+      <div class="glassmorphism px-10 text-white">
+        <h2 className="text-[#00EEf8]">Neural Network Parameters</h2>
+        <ul>
+          <li>Epochs: 100</li>
+          <li>Accuracy: 0.95</li>
+        </ul>
+      </div>
     </div>
   );
 };

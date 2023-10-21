@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PieLineContainer from "../Charts/PieLineContainer";
 import NavbarComponent from "./NavbarComponent";
 
 const ChartContainer = ({ walletAddress, setWalletAddress }) => {
   console.log(walletAddress);
+  const [session, setSession] = useState(1);
 
   return (
     <>
@@ -24,10 +25,9 @@ const ChartContainer = ({ walletAddress, setWalletAddress }) => {
           </div>
         </div>
         <div className="flex">
-          <NavbarComponent />
-          <PieLineContainer />
+          <NavbarComponent setSession={setSession} session={session} />
+          <PieLineContainer setSession={setSession} session={session} />
         </div>
-        
       </div>
     </>
   );
