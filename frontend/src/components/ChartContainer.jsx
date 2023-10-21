@@ -2,7 +2,9 @@ import React from "react";
 import PieLineContainer from "../Charts/PieLineContainer";
 import NavbarComponent from "./NavbarComponent";
 
-const ChartContainer = () => {
+const ChartContainer = ({ walletAddress, setWalletAddress }) => {
+  console.log(walletAddress);
+
   return (
     <>
       <div className="bg-[#020C1B] h-screen flex flex-col w-full">
@@ -17,15 +19,15 @@ const ChartContainer = () => {
             <img src="/public/logo1.svg" className="w-10" />
             WaFL
           </div>
-          <div className="ml-auto flex gap-8">
-            <div>About Us</div>
-            <div>Getting Started</div>
+          <div className="ml-auto flex gap-8 text-white items-center">
+            <span>Wallet Address :</span>0xac0....c80a
           </div>
         </div>
         <div className="flex">
           <NavbarComponent />
           <PieLineContainer />
         </div>
+        
       </div>
     </>
   );

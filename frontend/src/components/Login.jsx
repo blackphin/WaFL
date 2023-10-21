@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ConnectButton } from "@suiet/wallet-kit";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { useSDK } from "@metamask/sdk-react";
+import { useWallet } from "@suiet/wallet-kit";
 import { OktoConnector } from "@okto_wallet/okto-connect-sdk";
 import { useConnect } from "wagmi";
+import { Link, useNavigate } from "react-router-dom";
 
 const oktoConnector = new OktoConnector({
   options: {
@@ -11,26 +13,39 @@ const oktoConnector = new OktoConnector({
   },
 });
 
-const Login = () => {
-  const [account, setAccount] = useState();
-  const { sdk, connected, connecting, provider, chainId } = useSDK();
+const Login = ({ walletAddress, setWalletAddress }) => {
+  const { sdk, connected, chainId } = useSDK();
   const { connect: connectWithWagmi } = useConnect({
     connector: oktoConnector,
   });
+  const navigate = useNavigate();
 
+  const wallet = useWallet();
   const connectToMetamask = async () => {
     try {
       const accounts = await sdk?.connect();
-      setAccount(accounts?.[0]);
+      if (accounts?.[0]) {
+        setWalletAddress(accounts[0]);
+        navigate("/dashboard");
+      }
     } catch (err) {
       console.warn("Failed to connect to Metamask:", err);
     }
   };
 
+  console.log(walletAddress);
+
+  useEffect(() => {
+    if (wallet.account && wallet.account.address) {
+      setWalletAddress(wallet.account.address);
+      navigate("/dashboard");
+    }
+  }, [wallet.account]);
+
   return (
     <div className="h-screen">
       <div
-        className="p-8 h-full rounded-md"
+        className="p-8 h-full"
         style={{
           background:
             "rgb(0,54,59) radial-gradient(circle, rgba(0,54,59,1) 0%, rgba(2,12,27,1) 100%)",
@@ -38,6 +53,9 @@ const Login = () => {
           backgroundColor: "rgba(0, 54, 59, 0.4)",
         }}
       >
+        <Link to="/" className="text-white">
+          <span>Back</span>
+        </Link>
         <h1 className="font-semibold text-white text-4xl text-center p-8">
           Sign Up / Login
         </h1>
@@ -60,15 +78,6 @@ const Login = () => {
               </span>
               <img src="/public/metamask.svg" alt="Metamask" className="w-8" />
             </button>
-            {connected && (
-              <div>
-                <>
-                  {chainId && `Connected chain: ${chainId}`}
-                  <p></p>
-                  {account && `Connected account: ${account}`}
-                </>
-              </div>
-            )}
             <ConnectButton
               style={{
                 backgroundColor: "transparent",
@@ -95,12 +104,14 @@ const Login = () => {
                 width: "100%",
               }}
               className="px-4 w-100 py-4 font-semibold rounded-2xl"
-              onClick={() => connectWithWagmi()}
+              onClick={() => {
+                connectWithWagmi();
+              }}
             >
               <span>
                 CONNECT <span className="pl-4">via</span>
               </span>
-              <img src="/public/okto.svg" alt="Metamask" className="w-24" />
+              <img src="/public/okto.svg" alt="OktoWallet" className="w-24" />
             </button>
           </div>
           <div>

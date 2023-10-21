@@ -31,11 +31,11 @@ const LandingPage = () => {
               Turning crypto newbies into DeFi wizards, because even your cat
               understands smart contracts better than you.
             </div>
-            {/* <Link to="/dashboard"> */}
-            <button className="bg-[#00FFE5] p-3 text-black rounded-full font-semibold w-40">
-              Connect Wallet
-            </button>
-            {/* </Link> */}
+            <Link to="/login">
+              <button className="bg-[#00FFE5] p-3 text-black rounded-full font-semibold w-40">
+                Connect Wallet
+              </button>
+            </Link>
             <p className="text-sm text-blue-gray-300 relative bottom-5">
               Don't have a wallet yet ? Try our new{" "}
               <a className="text-[#00FFE5] underline">zkLogin</a>

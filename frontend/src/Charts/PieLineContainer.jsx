@@ -5,20 +5,28 @@ import ReactEcharts from "echarts-for-react";
 
 echarts.use([CanvasRenderer]);
 
-const data = [
-  { name: "Jan", uv: 400, pv: 2400, amt: 2400 },
-  { name: "Feb", uv: 300, pv: 1398, amt: 2210 },
-  { name: "Mar", uv: 200, pv: 9800, amt: 2290 },
-  { name: "Apr", uv: 278, pv: 3908, amt: 2000 },
-  { name: "May", uv: 189, pv: 4800, amt: 2181 },
-  { name: "Jun", uv: 239, pv: 3800, amt: 2500 },
-  { name: "Jul", uv: 349, pv: 4300, amt: 2100 },
+const dataAccuracy = [
+  { name: 0, uv1: 0.97, uv2: 0.98, uv3: 0.99, uv4: 0.99, uv5: 0.98 },
+  { name: 200, uv1: 0.98, uv2: 0.99, uv3: 1.0, uv4: 0.98, uv5: 0.99 },
+  { name: 400, uv1: 0.985, uv2: 0.995, uv3: 0.999, uv4: 0.98, uv5: 0.97 },
+  { name: 600, uv1: 0.988, uv2: 0.998, uv3: 0.9995, uv4: 0.999, uv5: 0.98 },
+  { name: 800, uv1: 0.989, uv2: 0.999, uv3: 0.9997, uv4: 0.99, uv5: 1.0 },
+  { name: 1000, uv1: 0.99, uv2: 1.0, uv3: 1.0, uv4: 0.99, uv5: 0.98 },
+];
+
+const dataLoss = [
+  { name: 1, uv1: 1.5, uv2: 1.6, uv3: 1.7, uv4: 1.6, uv5: 1.7 },
+  { name: 11, uv1: 1.55, uv2: 1.65, uv3: 1.75, uv4: 1.7, uv5: 1.8 },
+  { name: 21, uv1: 1.6, uv2: 1.7, uv3: 1.8, uv4: 1.75, uv5: 1.85 },
+  { name: 31, uv1: 1.65, uv2: 1.75, uv3: 1.85, uv4: 1.8, uv5: 1.9 },
+  { name: 41, uv1: 1.7, uv2: 1.8, uv3: 1.9, uv4: 1.85, uv5: 1.95 },
+  { name: 51, uv1: 1.75, uv2: 1.85, uv3: 1.95, uv4: 1.9, uv5: 1.97 },
 ];
 
 const LineChartComponent = () => {
   const option = {
     title: {
-      text: "Monthly Progress",
+      text: "Accuracy",
       left: "center",
       textStyle: {
         color: "#ffffff",
@@ -31,43 +39,61 @@ const LineChartComponent = () => {
       },
     },
     legend: {
-      data: ["UV", "PV", "Amt"],
+      data: ["Series 1", "Series 2", "Series 3", "Series 4", "Series 5"],
       top: 30,
-      color: "#ffffff",
       textStyle: {
         color: "#009788",
       },
     },
     xAxis: {
       type: "category",
-      data: data.map((entry) => entry.name),
+      data: dataAccuracy.map((entry) => entry.name),
+      interval: 200,
     },
     yAxis: {
       type: "value",
+      min: 0.97,
+      max: 1.0,
     },
     series: [
       {
-        name: "UV",
+        name: "Series 1",
         type: "line",
-        data: data.map((entry) => entry.uv),
+        data: dataAccuracy.map((entry) => entry.uv1),
         itemStyle: {
           color: "#08FFE4",
         },
       },
       {
-        name: "PV",
+        name: "Series 2",
         type: "line",
-        data: data.map((entry) => entry.pv),
+        data: dataAccuracy.map((entry) => entry.uv2),
         itemStyle: {
-          color: "#08dbc2", // Change the color to blue shade
+          color: "#08dbc2",
         },
       },
       {
-        name: "Amt",
+        name: "Series 3",
         type: "line",
-        data: data.map((entry) => entry.amt),
+        data: dataAccuracy.map((entry) => entry.uv3),
         itemStyle: {
-          color: "#03a895", // Change the color to blue shade
+          color: "#03a895",
+        },
+      },
+      {
+        name: "Series 4",
+        type: "line",
+        data: dataAccuracy.map((entry) => entry.uv4),
+        itemStyle: {
+          color: "#ff5733",
+        },
+      },
+      {
+        name: "Series 5",
+        type: "line",
+        data: dataAccuracy.map((entry) => entry.uv5),
+        itemStyle: {
+          color: "#ffda68",
         },
       },
     ],
@@ -84,70 +110,92 @@ const LineChartComponent = () => {
   );
 };
 
-export function PieChartComponent() {
+const LineChartComponentLoss = () => {
   const option = {
     title: {
-      text: "Marketing Channels",
+      text: "Train Loss",
       left: "center",
-      top: 0,
       textStyle: {
         color: "#ffffff",
       },
     },
     tooltip: {
-      trigger: "item",
-    },
-    visualMap: {
-      show: false,
-      min: 80,
-      max: 600,
-      inRange: {
-        colorLightness: [0, 1],
+      trigger: "axis",
+      axisPointer: {
+        type: "cross",
       },
+    },
+    legend: {
+      data: ["Loss S1", "Loss S2", "Loss S3", "Loss S4", "Loss S5"],
+      top: 30,
+      textStyle: {
+        color: "#009788",
+      },
+    },
+    xAxis: {
+      type: "category",
+      data: dataLoss.map((entry) => entry.name),
+      interval: 10,
+    },
+    yAxis: {
+      type: "value",
+      min: 1.0,
+      max: 2.0,
     },
     series: [
       {
-        name: "Access From",
-        type: "pie",
-        radius: "65%",
-        center: ["50%", "50%"],
-        data: [
-          { value: 212, name: "Social Media" },
-          { value: 410, name: "Referral" },
-          { value: 348, name: "Print Media" },
-          { value: 283, name: "Television Ads" },
-          { value: 250, name: "Billboard" },
-        ].sort(function (a, b) {
-          return a.value - b.value;
-        }),
-        roseType: "radius",
-        label: {
-          color: "rgba(255, 255, 255)",
-        },
-        labelLine: {
-          lineStyle: {
-            color: "rgba(255, 255, 255)",
-          },
-          smooth: 0.2,
-          length: 10,
-          length2: 20,
-        },
-        // CHANGE!!!
+        name: "Loss S1",
+        type: "line",
+        data: dataLoss.map((entry) => entry.uv1),
         itemStyle: {
-          color: "#3937aa",
+          color: "#08FFE4",
         },
-        animationType: "scale",
-        animationEasing: "easeOutExpo",
-        animationDelay: 100,
+      },
+      {
+        name: "Loss S2",
+        type: "line",
+        data: dataLoss.map((entry) => entry.uv2),
+        itemStyle: {
+          color: "#08dbc2",
+        },
+      },
+      {
+        name: "Loss S3",
+        type: "line",
+        data: dataLoss.map((entry) => entry.uv3),
+        itemStyle: {
+          color: "#03a895",
+        },
+      },
+      {
+        name: "Loss S4",
+        type: "line",
+        data: dataLoss.map((entry) => entry.uv4),
+        itemStyle: {
+          color: "#ff5733",
+        },
+      },
+      {
+        name: "Loss S5",
+        type: "line",
+        data: dataLoss.map((entry) => entry.uv5),
+        itemStyle: {
+          color: "#ffda68",
+        },
       },
     ],
   };
+
   return (
-    <div style={{ width: "50%", height: "300px" }}>
-      <ReactEcharts option={option} />
+    <div style={{ width: "50%", height: "100%" }}>
+      <ReactEcharts
+        option={option}
+        style={{ width: "100%", height: "300px" }}
+        opts={{ renderer: "canvas" }}
+      />
     </div>
   );
-}
+};
 
 const PieLineContainer = () => {
   return (
@@ -158,7 +206,7 @@ const PieLineContainer = () => {
       className="p-10 w-full"
     >
       <LineChartComponent />
-      <PieChartComponent />
+      <LineChartComponentLoss />
     </div>
   );
 };
