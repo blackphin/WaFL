@@ -7,7 +7,9 @@ from backend.Client.middleware.Networks import MSE_P
 
 
 def matrix_transform(matrix):
-    max_field = 21888242871839275222246405745257275088548364400416034343698204186575808495617
+    max_field = (
+        21888242871839275222246405745257275088548364400416034343698204186575808495617
+    )
     return np.where(matrix < 0, max_field + matrix, matrix), np.where(matrix > 0, 0, 1)
 
 
@@ -36,7 +38,13 @@ batchsize = 10
 
 t1 = time.time()
 path = os.path.dirname(os.path.abspath(__file__))
-zokrates_compile = [zokrates, "compile", "-i", path + "/root.zok", '--allow-unconstrained-variables']
+zokrates_compile = [
+    zokrates,
+    "compile",
+    "-i",
+    path + "/root.zok",
+    "--allow-unconstrained-variables",
+]
 g = subprocess.run(zokrates_compile, capture_output=True)
 t2 = time.time()
 print(f"Compilation for {batchsize} samples took {t2 - t1} seconds")
@@ -54,7 +62,12 @@ precision = 1000
 od = 6
 id = 9
 
-bias = np.random.randn(od,) * precision
+bias = (
+    np.random.randn(
+        od,
+    )
+    * precision
+)
 bias = np.array([int(x) for x in bias])
 b = bias
 bias, bias_sign = matrix_transform(bias)
@@ -85,8 +98,19 @@ for x in X:
     b = b - (error / learning_rate).astype(int)
 
 out = final_layer
-args = [weights, weights_sign, bias, bias_sign, x_train, x_train_sign, Y, learning_rate, precision,
-        matrix_transform(w)[0], matrix_transform(b)[0]]
+args = [
+    weights,
+    weights_sign,
+    bias,
+    bias_sign,
+    x_train,
+    x_train_sign,
+    Y,
+    learning_rate,
+    precision,
+    matrix_transform(w)[0],
+    matrix_transform(b)[0],
+]
 
 zokrates_compute_witness = [zokrates, "compute-witness", "-a"]
 zokrates_compute_witness.extend(args_parser(args).split(" "))
