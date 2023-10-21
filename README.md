@@ -1,8 +1,10 @@
 # WaFL: Web3 accelerated Federated Learning
 Pairing ML Waffles with the sweetness ofWeb3 Syrup
 
-![WaFL]()
+Project Link: [WaFL](http://wafl-551f6d.spheron.app)
 
+
+![cover](https://github.com/blackphin/WaFL/assets/44195921/78c5fd64-8282-4f87-bc7b-5c5b0a4c0e35)
 
 # Problem Statement & Proposed Solution
 Federated Learning is an ML paradigm that solves the issue of training Global Models among several entities without distributing sensitive data from each participating entity. In a gist, it works by clients locally training their models on their data and only sharing their model weights with an aggregator that uses an aggregation algorithm (e.g. FedAvg).
@@ -24,25 +26,17 @@ We provide a few-step setup so that everyone can start working with WaFL on the 
 Along with our main product, we also provide a service for the users to graph their model metrics (e.g. accuracy and loss scores). By simply signing up on our website, the users can track their model progress and tweak their hyper-parameters.
 
 # TL;DR:
-We offer our Platform as a service (PaaS) for users to engage in a P2P Informal Credit Transaction with verified Lendor and Borrower accounts and give them back their right to negotiate.
+We offer a secure and scalable Federated Learning Framework levaraging both on-chain aggreagation as well as off-chain ZKP verification.
 
-# Prize Tracks We Applied For:
-1. World ID
-2. Infura
-3. Polygon
-4. Push Protocol
 
-# Development Flow:
-1. Account Creation:
-    We used **World ID**
-2. Smart Contracts:
-    We used **Solidity and Polygon**
-3. Balance and Transaction History:
-    We used **Fast APIs, web3.py & EtherScan**
-4. Chat & Notifications:
-    We used **Push Protocol**
-6. Deployment:
-    We used **Infura & Polygon**
+# User Development Flow:
+1. Account Creation
+2. Framework Setup
+3. Local Model Training
+4. zkSNARK Production
+6. ZKP Verification
+7. Model Weight Aggregation
+8. Dashboard Analytics
 
 # Tech Stack We Used:
 1. Python
@@ -63,7 +57,13 @@ We offer our Platform as a service (PaaS) for users to engage in a P2P Informal 
 - Thorough testing required a lot of Gas Fees, which was troublesome as the Faucets were either deprecated or empty.
 - Dataflow between the Backend Modules required several refactors to work seamlessly.
 - Deploying Smart Contract on Testnet required a lot of pre-requisite setup to spin up our own Subnet and Node Network.
-# Images of The Project:
-![Screenshot (4)](https://user-images.githubusercontent.com/44195921/205472864-6020a998-efdd-42d7-8eb0-0cbccd21ed4c.png)
 
-![0002](https://user-images.githubusercontent.com/44195921/205472961-011c1d24-3830-4cb5-8277-f9d89ff4f0c7.gif)
+# Watchme
+https://www.loom.com/share/b5a6780e3bbd493b8b0c143bad56973e?sid=5ef59be3-3e7b-46d7-b725-61c88faa2f2d
+
+# Images of The Project:
+![IMG-20231021-WA0003](https://github.com/blackphin/WaFL/assets/44195921/e56c8c89-e8f8-4328-9501-57d2c425e68d)
+![IMG-20231021-WA0004](https://github.com/blackphin/WaFL/assets/44195921/cb435758-f92c-4436-b562-e38c34d2083b)
+![IMG-20231021-WA0005](https://github.com/blackphin/WaFL/assets/44195921/2e854d12-5741-4fb7-840a-edf7f5aa02b4)
+![IMG-20231021-WA0007](https://github.com/blackphin/WaFL/assets/44195921/b4f8a0ea-98f8-426e-b636-81b8c29b26c8)
+![WhatsApp Image 2023-10-21 at 10 14 48_df47f797](https://github.com/blackphin/WaFL/assets/44195921/9fbdf5da-de67-4a3b-be4c-a1f50725052f)
