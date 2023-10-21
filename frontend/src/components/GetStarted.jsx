@@ -1,39 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 
 const GetStarted = () => {
+  const [isCopied, setIsCopied] = useState([false, false]);
+
+  const codeSnippets = [
+    "git clone https://github.com/blackphin/WaFL  &&  cd WaFL",
+    "./scripts/setup.sh",
+  ];
+
+  const copyToClipboard = (index) => {
+    navigator.clipboard.writeText(codeSnippets[index]).then(() => {
+      const updatedCopiedState = [...isCopied];
+      updatedCopiedState[index] = true;
+      setIsCopied(updatedCopiedState);
+      setTimeout(() => {
+        const resetCopiedState = [...isCopied];
+        resetCopiedState[index] = false;
+        setIsCopied(resetCopiedState);
+      }, 2000);
+    });
+  };
+
   return (
-    <div className="flex flex-col justify-center  text-white h-screen p-4">
-      <div className="text-4xl font-semibold text-start pl-10 ">
+    <div className="flex flex-col justify-center text-white h-screen p-4">
+      <div className="text-4xl font-semibold text-start pl-10 text-[#00FFe5]">
         Getting Started
       </div>
-      <p className="p-10 text-sm">
-        <span className="text-[#00FFe5] text-xl">Federated Learning</span>
-        enables collaborative model training across entities while preserving
-        <span className="text-[#00FFe5] text-xl"> data privacy</span> . It works
-        by local client model training and sharing only model weights with an
-        aggregator. However, it has some drawbacks: clients must trust the
-        aggregator for accurate aggregation, and malicious clients can
-        compromise the model. To address these challenges, we've developed WaFL,
-        a secure solution with two key components:
-        <br /> <br /> 1. An{" "}
-        <span className="text-[#00FFe5] text-xl">
-          aggregator smart contract{" "}
-        </span>{" "}
-        ensures trustless aggregation of client model updates.
-        <br /> <br />
-        2. Off-chain{" "}
-        <span className="text-[#00FFe5] text-xl">
-          zkSNARK verification
-        </span>{" "}
-        guarantees the integrity of client model weights before aggregation.
+      <p className="p-10 text-xl">
+        <span>
+          We provide a simple 2-step initialization so that developers can get
+          started instantly
+        </span>
+        <div className="flex flex-col gap-8 p-12">
+          {codeSnippets.map((snippet, index) => (
+            <div
+              key={index}
+              className="p-4 bg-black rounded-lg relative flex justify-between"
+            >
+              <span>
+                {index + 1}. {snippet}
+              </span>
+              <button
+                onClick={() => copyToClipboard(index)}
+                className="text-[#00FFe5] border-none bg-transparent cursor-pointer"
+              >
+                {isCopied[index] ? "Copied!" : "Copy"}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <span className="text-xl">Happy Building!</span>
         <br />
-        <br /> We offer middleware to facilitate client-aggregator interactions
-        and streamline data flow, allowing clients to focus on their local
-        models. Our setup process makes it easy for everyone to use WaFL.
-        Additionally, we provide a service for users to visualize model metrics
-        like accuracy and loss scores. Users can sign up on our website to
-        monitor their model's progress and fine-tune hyperparameters.
+        <br />
       </p>
     </div>
   );

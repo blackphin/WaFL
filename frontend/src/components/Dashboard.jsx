@@ -11,6 +11,10 @@ const Dashboard = () => {
       <LandingPage />
       <About />
       <GetStarted />
+      <footer className="p-4 text-white text-center">
+        <div className="text-xl p-2">Made with ❤️🧇</div>
+        <div>Shivansh Goel | Amey Khare | Madhav Walia | Subrabala Dash</div>
+      </footer>
     </div>
   );
 };
