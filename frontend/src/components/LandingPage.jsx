@@ -14,7 +14,7 @@ const LandingPage = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <img src="/public/logo1.svg" className="w-12" />
+            <img src="https://drive.google.com/file/d/1_sBplgKkYDKcyUG7jrIVpRePcPUTea7v/view?usp=share_link" className="w-12" alt="Logo" /> 
             WaFL
           </div>
           <div className="ml-auto flex gap-8 items-center">
@@ -45,7 +45,7 @@ const LandingPage = () => {
             <Player
               autoplay
               loop
-              src="/public/animation.json"
+              src="https://drive.google.com/file/d/1xExMqge5_-YeC9JAZCsOc0I4Z3Z4Qfgp/view?usp=share_link" // Use the imported Lottie animation JSON
               style={{ height: "400px", width: "400px" }}
             >
               <Controls buttons={["play", "repeat", "frame", "debug"]} />

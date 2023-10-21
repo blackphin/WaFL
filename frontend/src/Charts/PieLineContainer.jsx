@@ -43,7 +43,10 @@ const LineChartComponent = ({ session }) => {
     xAxis: {
       type: "category",
       data: sessionData.dataAccuracy.map((entry) => entry.name),
-      interval: 200,
+      interval: 5,
+      lineStyle: {
+        width: 2,
+      },
     },
     yAxis: {
       type: "value",
@@ -58,48 +61,44 @@ const LineChartComponent = ({ session }) => {
         itemStyle: {
           color: "#08FFE4",
         },
-        smooth:true
+        smooth: true,
       },
-      {
-        name: "Series 2",
-        type: "line",
-        data: sessionData.dataAccuracy.map((entry) => entry.uv2),
-        itemStyle: {
-          color: "#08dbc2",
-        },
-        smooth:true
-
-      },
-      {
-        name: "Series 3",
-        type: "line",
-        data: sessionData.dataAccuracy.map((entry) => entry.uv3),
-        itemStyle: {
-          color: "#03a895",
-        },
-        smooth:true
-
-      },
-      {
-        name: "Series 4",
-        type: "line",
-        data: sessionData.dataAccuracy.map((entry) => entry.uv4),
-        itemStyle: {
-          color: "#ff5733",
-        },
-        smooth:true
-
-      },
-      {
-        name: "Series 5",
-        type: "line",
-        data: sessionData.dataAccuracy.map((entry) => entry.uv5),
-        itemStyle: {
-          color: "#ffda68",
-        },
-        smooth:true
-
-      },
+      // {
+      //   name: "Series 2",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv2),
+      //   itemStyle: {
+      //     color: "#08dbc2",
+      //   },
+      //   smooth: true,
+      // },
+      // {
+      //   name: "Series 3",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv3),
+      //   itemStyle: {
+      //     color: "#03a895",
+      //   },
+      //   smooth: true,
+      // },
+      // {
+      //   name: "Series 4",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv4),
+      //   itemStyle: {
+      //     color: "#ff5733",
+      //   },
+      //   smooth: true,
+      // },
+      // {
+      //   name: "Series 5",
+      //   type: "line",
+      //   data: sessionData.dataAccuracy.map((entry) => entry.uv5),
+      //   itemStyle: {
+      //     color: "#ffda68",
+      //   },
+      //   smooth: true,
+      // },
     ],
   };
 
@@ -124,7 +123,6 @@ const LineChartComponentLoss = ({ session }) => {
   } else if (session === 3) {
     sessionData = Data.session3;
   } else {
-    // Handle the case when an invalid session is provided
     return null;
   }
 
