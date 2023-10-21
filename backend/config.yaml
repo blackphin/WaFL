@@ -20,6 +20,13 @@ DEFAULT:
   PerformProof: False
   Gas: 100000000000000
 
+  ResponseVariable: "Activity"
+  EtheriumRPCServer: 
+  FLContractAddress: 
+  VerifierContractAddress: 
+  ZokratesPath: "./Client/verifier/verfication.zok"
+  VerificationBase: "./Client/verifier/SAVED_VERIFYER_10/"
+  FLContractABIPath: 
 
   Activities : [5, 11, 12, 14, 15, 17]
   ActivitiesEncoded : [1,2,3,4,5,6]
