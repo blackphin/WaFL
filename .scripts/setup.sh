@@ -37,8 +37,6 @@ npm install
 # Deactivate the virtual environment
 deactivate
 
-#!/bin/bash
-
 # Create the directory structure and files
 mkdir src
 touch src/preprocessing.py src/main.py
