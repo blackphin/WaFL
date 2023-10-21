@@ -26,7 +26,414 @@ DEFAULT:
   VerifierContractAddress: 0x7ed994ca93978832856C36cCa0168827b32827a3
   ZokratesPath: "./Client/verifier/verfication.zok"
   VerificationBase: "./Client/verifier/SAVED_VERIFYER_10/"
-  FLContractABIPath:
+  FLContractABIPath: [
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "newLearnignRate",
+				"type": "int256"
+			}
+		],
+		"name": "changeLearningRate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "newPrecision",
+				"type": "int256"
+			}
+		],
+		"name": "changePrecision",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[2]",
+				"name": "a",
+				"type": "uint256[2]"
+			},
+			{
+				"internalType": "uint256[2][2]",
+				"name": "b",
+				"type": "uint256[2][2]"
+			},
+			{
+				"internalType": "uint256[2]",
+				"name": "c",
+				"type": "uint256[2]"
+			},
+			{
+				"internalType": "uint256[183]",
+				"name": "input",
+				"type": "uint256[183]"
+			}
+		],
+		"name": "checkZKP",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "end_update_round",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getBatchSize",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getInputDimension",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLearningRate",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getOutputDimension",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPrecision",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getRoundNumber",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256[][]",
+				"name": "local_weights",
+				"type": "int256[][]"
+			},
+			{
+				"internalType": "int256[]",
+				"name": "local_bias",
+				"type": "int256[]"
+			}
+		],
+		"name": "initModel",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "is_Training",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "map_temp_to_global",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256[]",
+				"name": "new_bias",
+				"type": "int256[]"
+			}
+		],
+		"name": "movingAverageBias",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256[][]",
+				"name": "new_weights",
+				"type": "int256[][]"
+			}
+		],
+		"name": "movingAverageWeights",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "roundUpdateOutstanding",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "startTraining",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "stopTraining",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "time_until_next_update_round",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "od",
+				"type": "uint256"
+			},
+			{
+				"internalType": "int256",
+				"name": "learning_rate_",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "precision_",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "batchSize_",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "updateInterval_",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256[][]",
+				"name": "local_weights",
+				"type": "int256[][]"
+			},
+			{
+				"internalType": "int256[]",
+				"name": "local_bias",
+				"type": "int256[]"
+			},
+			{
+				"internalType": "uint256[2]",
+				"name": "a",
+				"type": "uint256[2]"
+			},
+			{
+				"internalType": "uint256[2][2]",
+				"name": "b",
+				"type": "uint256[2][2]"
+			},
+			{
+				"internalType": "uint256[2]",
+				"name": "c",
+				"type": "uint256[2]"
+			},
+			{
+				"internalType": "uint256[183]",
+				"name": "input",
+				"type": "uint256[183]"
+			}
+		],
+		"name": "update_with_proof",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256[][]",
+				"name": "local_weights",
+				"type": "int256[][]"
+			},
+			{
+				"internalType": "int256[]",
+				"name": "local_bias",
+				"type": "int256[]"
+			}
+		],
+		"name": "update_without_proof",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "verifier_address",
+				"type": "address"
+			}
+		],
+		"name": "updateVerifier",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "administrator",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "get_global_bias",
+		"outputs": [
+			{
+				"internalType": "int256[]",
+				"name": "",
+				"type": "int256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "get_global_weights",
+		"outputs": [
+			{
+				"internalType": "int256[][]",
+				"name": "",
+				"type": "int256[][]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "participantsCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
 
   Activities : [5, 11, 12, 14, 15, 17]
   ActivitiesEncoded : [1,2,3,4,5,6]
