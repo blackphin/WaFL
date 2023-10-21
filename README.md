@@ -67,4 +67,3 @@ https://www.loom.com/share/b5a6780e3bbd493b8b0c143bad56973e?sid=5ef59be3-3e7b-46
 ![IMG-20231021-WA0005](https://github.com/blackphin/WaFL/assets/44195921/2e854d12-5741-4fb7-840a-edf7f5aa02b4)
 ![IMG-20231021-WA0007](https://github.com/blackphin/WaFL/assets/44195921/b4f8a0ea-98f8-426e-b636-81b8c29b26c8)
 ![WhatsApp Image 2023-10-21 at 10 14 48_df47f797](https://github.com/blackphin/WaFL/assets/44195921/d8fdd43f-b92f-4c82-9332-70515b26a9fd)
-![0002](https://user-images.githubusercontent.com/44195921/205472961-011c1d24-3830-4cb5-8277-f9d89ff4f0c7.gif)
