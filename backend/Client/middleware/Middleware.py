@@ -1,9 +1,19 @@
+import functools
+import io
+import json
+import subprocess
+import threading
+import time
+import numpy as np
 import pandas as pd
 from sklearn.base import accuracy_score
 from sklearn.metrics import classification_report
-from backend.Client.broker.Consumer import Consumer
-from backend.Client.middleware.Networks import ANN, FullyConnected, MSE, MSE_P
 from sklearn.preprocessing import StandardScaler
+
+from Client.broker.Consumer import Consumer
+from Client.middleware.Networks import ANN, FullyConnected, MSE, MSE_P
+from Client.utils.utils import load_config
+from backend.Client.metrics.metrics import Metrics
 
 
 class FLModel:
@@ -201,3 +211,211 @@ class FLModel:
             self.curr_batch = data
         else:
             self.curr_batch = pd.concat([self.curr_batch, data])
+
+
+class MiddleWare:
+    def __init__(self, blockchainConnection, deviceName, accountNR, configFile):
+        self.accountNR = accountNR
+        self.consumer_thread = None
+        self.metrics = Metrics(deviceName=deviceName, config_file=configFile)
+        self.blockChainConnection = blockchainConnection
+        self.deviceName = deviceName
+        self.model = FLModel(config_file=configFile, deviceName=self.deviceName)
+        self.config = configFile
+        self.consumer = Consumer()
+        self.__init_Consumer(deviceName, callback)
+        self.proof = None
+        self.precision = None
+        self.batchSize = None
+        self.round = 0
+
+    def __generate_Proof(self, w, b, w_new, b_new, x_train, y_train, learning_rate):
+        x_train = x_train * self.precision
+        b_new = b_new.reshape(
+            self.config["DEFAULT"]["OutputDimension"],
+        )
+        x_train = x_train.astype(int)
+
+        def args_parser(args):
+            res = ""
+            for arg in range(len(args)):
+                entry = args[arg]
+                if isinstance(entry, (list, np.ndarray)):
+                    for i in range(len(entry)):
+                        row_i = entry[i]
+                        if isinstance(row_i, (list, np.ndarray)):
+                            for j in range(len(row_i)):
+                                val = row_i[j]
+                                res += str(val) + " "
+                        else:
+                            res += str(row_i) + " "
+                else:
+                    res += str(args[arg]) + " "
+            res = res[:-1]
+            return res
+
+        def matrix_transform(m):
+            max_field = 21888242871839275222246405745257275088548364400416034343698204186575808495617
+            m = np.array(m)
+            return np.where(m < 0, max_field + m, m), np.where(m > 0, 0, 1)
+
+        zokrates = "zokrates"
+        verification_base = self.config["DEFAULT"]["VerificationBase"]
+        weights, weights_sign = matrix_transform(w)
+        bias, bias_sign = matrix_transform(b)
+        weights_new, _ = matrix_transform(w_new)
+        bias_new, _ = matrix_transform(b_new)
+        x, x_sign = matrix_transform(x_train)
+
+        args = [
+            weights,
+            weights_sign,
+            bias,
+            bias_sign,
+            x,
+            x_sign,
+            y_train,
+            learning_rate,
+            self.precision,
+            weights_new,
+            bias_new,
+        ]
+        out_path = verification_base + "out"
+        abi_path = verification_base + "abi.json"
+        witness_path = verification_base + "witness_" + self.deviceName
+
+        zokrates_compute_witness = [
+            zokrates,
+            "compute-witness",
+            "-o",
+            witness_path,
+            "-i",
+            out_path,
+            "-s",
+            abi_path,
+            "-a",
+        ]
+        zokrates_compute_witness.extend(args_parser(args).split(" "))
+        g = subprocess.run(zokrates_compute_witness, capture_output=True)
+
+        proof_path = verification_base + "proof_" + self.deviceName
+        proving_key_path = verification_base + "proving.key"
+        zokrates_generate_proof = [
+            zokrates,
+            "generate-proof",
+            "-w",
+            witness_path,
+            "-p",
+            proving_key_path,
+            "-i",
+            out_path,
+            "-j",
+            proof_path,
+        ]
+        g = subprocess.run(zokrates_generate_proof, capture_output=True)
+
+        with open(proof_path, "r+") as f:
+            self.proof = json.load(f)
+
+    def __init_Consumer(self, DeviceName, callBackFunction):
+        queueName = self.config["DEFAULT"]["QueueBase"] + DeviceName
+        on_message_callback = functools.partial(callBackFunction, args=(self.model))
+        self.consumer.declare_queue(queueName)
+        self.consumer.consume_data(queueName, on_message_callback)
+
+    def __start_Consuming(self):
+        self.consumer_thread = threading.Thread(target=self.consumer.start_consuming)
+        self.consumer_thread.start()
+
+    def update(self, w, b, p, r, balance):
+        tu = time.time()
+        self.blockChainConnection.update(w, b, self.accountNR, p)
+        self.metrics.add_round_update_blockchain_time(r, time.time() - tu)
+        self.metrics.add_round_gas(
+            self.round,
+            balance - self.blockChainConnection.get_account_balance(self.accountNR),
+        )
+
+    def start(self):
+        self.__start_Consuming()
+        self.blockChainConnection.init_contract(self.accountNR)
+        self.round = self.blockChainConnection.get_RoundNumber(self.accountNR)
+
+        while self.config["DEFAULT"]["Rounds"] > self.round:
+            outstanding_update = self.blockChainConnection.roundUpdateOutstanding(
+                self.accountNR
+            )
+
+            self.round = self.blockChainConnection.get_RoundNumber(self.accountNR)
+            print(
+                f"{self.deviceName}: Round {self.round} Has update outstanding: ",
+                outstanding_update,
+            )
+
+            if outstanding_update:
+                t = time.time()
+                balance = self.blockChainConnection.get_account_balance(self.accountNR)
+                global_weights = self.blockChainConnection.get_globalWeights(
+                    self.accountNR
+                )
+                global_bias = self.blockChainConnection.get_globalBias(self.accountNR)
+                lr = self.blockChainConnection.get_LearningRate(self.accountNR)
+
+                self.precision = self.blockChainConnection.get_Precision(self.accountNR)
+                self.model.set_precision(precision=self.precision)
+                self.model.set_learning_rate(lr)
+                self.model.set_weights(global_weights)
+                self.model.set_bias(global_bias)
+                self.batchSize = self.blockChainConnection.get_BatchSize(self.accountNR)
+                self.model.set_batchSize(self.batchSize)
+
+                tt = time.time()
+                self.model.process_Batch()
+                self.metrics.add_round_training_local_time(
+                    self.round, time.time() - tt
+                )
+                self.metrics.add_round_score(self.round, self.model.test_model())
+                self.metrics.add_round_classification_report(
+                    self.round, self.model.get_classification_report()
+                )
+
+                w = self.model.get_weights()
+                b = self.model.get_bias()
+                if self.config["DEFAULT"]["PerformProof"]:
+                    tp = time.time()
+                    self.__generate_Proof(
+                        global_weights,
+                        global_bias,
+                        w,
+                        b,
+                        self.model.x_train,
+                        self.model.y_train,
+                        lr,
+                    )
+                    self.metrics.add_round_proof_times(self.round, time.time() - tp)
+
+                self.model.reset_batch()
+                thread = threading.Thread(
+                    target=self.update, args=[w, b, self.proof, self.round, balance]
+                )
+                thread.start()
+                print(
+                    f"{self.deviceName}:Round {self.round} update took {time.time()-t} seconds"
+                )
+
+                self.round += 1
+                self.metrics.add_round_time(self.round, time.time() - t)
+            time.sleep(self.config["DEFAULT"]["WaitingTime"])
+
+        self.metrics.write_data()
+
+    def __sleep_call(self, t):
+        for i in range(0, t):
+            time.sleep(1)
+
+
+def callback(ch, method, properties, body, args):
+    model = args
+    if isinstance(model, FLModel):
+        batch = pd.read_csv(io.BytesIO(body), header=0, index_col=0)
+        model.add_data_to_current_batch(batch)
