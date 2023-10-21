@@ -21,12 +21,12 @@ DEFAULT:
   Gas: 100000000000000
 
   ResponseVariable: "Activity"
-  EtheriumRPCServer: 
-  FLContractAddress: 
-  VerifierContractAddress: 
+  EtheriumRPCServer: https://api.avax-test.network/ext/C/rpc
+  FLContractAddress: 0x2B1D4457c67F538A1B70c2629Faf11d1595Cb742
+  VerifierContractAddress: 0x7ed994ca93978832856C36cCa0168827b32827a3
   ZokratesPath: "./Client/verifier/verfication.zok"
   VerificationBase: "./Client/verifier/SAVED_VERIFYER_10/"
-  FLContractABIPath: 
+  FLContractABIPath:
 
   Activities : [5, 11, 12, 14, 15, 17]
   ActivitiesEncoded : [1,2,3,4,5,6]
