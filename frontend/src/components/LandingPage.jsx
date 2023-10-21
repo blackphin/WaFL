@@ -3,6 +3,18 @@ import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { Link } from "react-router-dom";
 
 const LandingPage = () => {
+  const handleAboutClick = () => {
+    window.scrollTo({
+      top: window.scrollY + window.innerHeight,
+      behavior: "smooth",
+    });
+  };
+  const handleGettingClick = () => {
+    window.scrollTo({
+      top: window.scrollY + window.innerHeight + window.innerHeight,
+      behavior: "smooth",
+    });
+  };
   return (
     <>
       <div className="h-screen ">
@@ -14,12 +26,20 @@ const LandingPage = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <img src="/public/logo1.svg" className="w-12" alt="Logo" /> 
+            <img
+              src="https://svgshare.com/i/ykT.svg"
+              className="w-12"
+              alt="Logo"
+            />
             WaFL
           </div>
           <div className="ml-auto flex gap-8 items-center">
-            <div>About Us</div>
-            <div>Getting Started</div>
+            <div className="cursor-pointer" onClick={handleAboutClick}>
+              About Us
+            </div>
+            <div className="cursor-pointer" onClick={handleGettingClick}>
+              Getting Started
+            </div>
           </div>
         </div>
         <div className="text-white flex justify-between h-full">
@@ -28,7 +48,7 @@ const LandingPage = () => {
               WaFL : Web3 accelerated Federated Learning
             </div>
             <div className="text-xl">
-            Pairing ML Waffles with the sweetness of Web3
+              Pairing ML Waffles with the sweetness of Web3
             </div>
             <Link to="/login">
               <button className="bg-[#00FFE5] p-3 text-black rounded-full font-semibold w-40">
