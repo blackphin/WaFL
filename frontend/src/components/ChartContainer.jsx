@@ -17,10 +17,7 @@ const ChartContainer = ({ walletAddress, setWalletAddress }) => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <img
-              src="https://drive.google.com/file/d/1_sBplgKkYDKcyUG7jrIVpRePcPUTea7v/view?usp=share_link"
-              className="w-10"
-            />
+            <img src="/public/logo1.svg" className="w-10" />
             WaFL
           </div>
           <div className="ml-auto flex gap-8 text-white items-center">
