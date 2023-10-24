@@ -1,7 +1,7 @@
 # WaFL: Web3 accelerated Federated Learning
 Pairing ML Waffles with the sweetness ofWeb3 Syrup
 
-Project Link: [WaFL](http://wafl-551f6d.spheron.app)
+Project Link: [WaFL]([http://wafl-551f6d.spheron.app](https://devfolio.co/projects/wafl-web-accelerated-federated-learning-cabb))
 
 
 ![cover](https://github.com/blackphin/WaFL/assets/44195921/78c5fd64-8282-4f87-bc7b-5c5b0a4c0e35)
